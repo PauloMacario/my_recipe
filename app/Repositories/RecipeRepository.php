@@ -43,17 +43,13 @@ class RecipeRepository
         return $this->model::create($data);
     }
 
-    public function updateRecipe(int $id, array $data)
+    public function updateRecipe(Recipe $recipe, array $data)
     {
-        $recipe = $this->getRecipe($id);
-
         return $recipe->update($data);
     }
 
-    public function deleteRecipe(int $id)
+    public function deleteRecipe(Recipe $recipe)
     {
-        $recipe = $this->getRecipe($id);
-
-        return $recipe->delete($recipe);
+        return $recipe->delete();
     }    
 }

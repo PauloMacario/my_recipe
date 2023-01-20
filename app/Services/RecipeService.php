@@ -40,11 +40,19 @@ class RecipeService
 
     public function updateRecipe(int $id, array $data)
     {
-        return $this->repository->updateRecipe($id, $data);
+        if (!$recipe = $this->listRecipe($id)) {
+            return false;
+        }
+
+        return $this->repository->updateRecipe($recipe, $data);
     }
 
     public function deleteRecipe(int $id)
     {
-        return $this->repository->deleteRecipe($id);
+        if (!$recipe = $this->listRecipe($id)) {
+            return false;
+        }    
+
+        return $this->repository->deleteRecipe($recipe);
     }
 }

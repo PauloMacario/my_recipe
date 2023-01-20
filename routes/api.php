@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 include_once 'api/recipe.php';
+include_once 'api/category.php';

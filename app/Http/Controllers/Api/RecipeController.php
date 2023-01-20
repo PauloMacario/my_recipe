@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\RecipeRequest;
 use App\Services\RecipeService;
-use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {   
@@ -35,7 +34,7 @@ class RecipeController extends Controller
         $recipe = $this->recipeService->listRecipeFull($id);
 
         if (!$recipe) {
-            return response()->json(["error" => "resource not found"], 404);
+            return response()->json(["message" => "resource not found"], 404);
         }
 
         return response()->json($recipe);
@@ -46,7 +45,7 @@ class RecipeController extends Controller
         $recipe = $this->recipeService->listRecipe($id);
 
         if (!$recipe) {
-            return response()->json(["error" => "resource not found"], 404);
+            return response()->json(["message" => "resource not found"], 404);
         }
 
         return response()->json($recipe);
@@ -61,17 +60,19 @@ class RecipeController extends Controller
 
     public function update($id, RecipeRequest $request)
     {
-        $response = $this->recipeService->updateRecipe($id, $request->all());
+        if (!$response = $this->recipeService->updateRecipe($id, $request->all())) {
+            return response()->json(["error" => "Action not taken"], 404);
+        }
 
-        return response()->json([
-            "updated" => $response
-        ]);
+        return response()->json(["updated" => $response]);
     }
 
     public function destroy($id)
     {
-        $response = $this->recipeService->deleteRecipe($id);
+        if (!$this->recipeService->deleteRecipe($id)) {
+            return response()->json(["error" => "Action not taken"], 404);
+        }
 
-        return response()->json([], 204);
+        return response()->json(["deleted" => "true"], 204);
     }
 }

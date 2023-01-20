@@ -29,5 +29,10 @@ class Recipe extends Model
     public function image()
     {
         return $this->belongsTo(Image::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
     } 
 }
